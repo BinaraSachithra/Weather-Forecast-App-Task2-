@@ -1,6 +1,27 @@
-# task2
+<h2>🚀 Weather Forecast Mobile Application - task2 </h2>
+<h3>📜 Project Overview:</h3>
+<p> This is weather forecast app. This app show user current location and that location current weather, hourly weather condition. The open-meteo API used in this app to get weather details.</p>
 
-A new Flutter project.
+<h3>✨ Key Features:</h3>
+  <p>✤ Currrent Temperature </p>
+  <p>✤ Condition (Rainy,Cloudy, etc) </p>
+  <p>✤ Wind Speed </p>
+  <p>✤ Hourly Forecast (Temperature & Humidity) </p>
+
+<h3> UI of the Application </h3>
+<h4> Welcome Page </h4>
+![Welcome](https://github.com/user-attachments/assets/69444dfd-7fe5-4f58-819a-7f66b0bcbab2)
+
+<h4> Permission Access </h4>
+![Permission](https://github.com/user-attachments/assets/b5e6e703-43b9-4c51-9f40-7ffa297ab71f)
+
+<h4> Dashboard Page </h4>
+![Dashboard](https://github.com/user-attachments/assets/f56b8b7f-1e5a-4a9c-bafa-c2f1d5dd9ebf)
+
+<p>🔗 Feedback and thoughts are welcome!</p>
+
+#Flutter #open-meteo #weather #MobileAppDevelopment #DigitalTransformation #SoftwareEngineering
+
 
 ## Getting Started
 
