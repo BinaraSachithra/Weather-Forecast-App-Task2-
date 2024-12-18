@@ -9,13 +9,16 @@
   <p>✤ Hourly Forecast (Temperature & Humidity) </p>
 
 <h3> UI of the Application </h3>
-<h4> Welcome Page </h4>
+<h3> Welcome Page </h3>
+
 ![Welcome](https://github.com/user-attachments/assets/69444dfd-7fe5-4f58-819a-7f66b0bcbab2)
 
-<h4> Permission Access </h4>
+<h3> Permission Access </h3>
+
 ![Permission](https://github.com/user-attachments/assets/b5e6e703-43b9-4c51-9f40-7ffa297ab71f)
 
-<h4> Dashboard Page </h4>
+<h3> Dashboard Page </h3>
+
 ![Dashboard](https://github.com/user-attachments/assets/f56b8b7f-1e5a-4a9c-bafa-c2f1d5dd9ebf)
 
 <p>🔗 Feedback and thoughts are welcome!</p>
