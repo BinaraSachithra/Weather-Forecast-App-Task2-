@@ -7,6 +7,7 @@
   <p>✤ Condition (Rainy,Cloudy, etc) </p>
   <p>✤ Wind Speed </p>
   <p>✤ Hourly Forecast (Temperature & Humidity) </p>
+  <h5>✤ New Update Daily Forecast (Max & Min Temperature & Precipitation) </h5>
 
 <h3> UI of the Application </h3>
 <h3> Welcome Page </h3>
