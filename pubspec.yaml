@@ -41,6 +41,8 @@ dependencies:
   auto_size_text: ^3.0.0
   http: ^1.0.0
   geolocator: ^10.0.0
+  google_nav_bar: ^5.0.0
+  line_icons: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -99,3 +101,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"

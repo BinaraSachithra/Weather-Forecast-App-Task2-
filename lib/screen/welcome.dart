@@ -51,7 +51,7 @@ class Welcome extends StatelessWidget {
                               backgroundColor: WidgetStatePropertyAll(
                                   Color.fromARGB(255, 120, 237, 255))),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/dashboard');
+                            Navigator.pushNamed(context, '/navigation');
                           },
                           child: Text(
                             "GET STARTED",

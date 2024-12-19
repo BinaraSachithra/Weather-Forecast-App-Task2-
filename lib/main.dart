@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task2/screen/monthly_hourly.dart';
+import 'package:task2/screen/navigation.dart';
 import 'package:task2/screen/welcome.dart';
 import 'package:task2/screen/dashboard.dart';
 
@@ -17,8 +19,10 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/welcome',
       routes: {
-        '/dashboard': (context) => const Dashboard(),
         '/welcome': (context) => const Welcome(),
+        '/dashboard': (context) => const Dashboard(),
+        '/monthlyhourly': (context) => const MonthlyHourly(),
+        '/navigation': (context) => Navigation(),
       },
     );
   }

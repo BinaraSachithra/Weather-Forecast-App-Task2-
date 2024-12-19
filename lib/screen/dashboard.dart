@@ -24,15 +24,11 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> fetchLocationAndWeather() async {
     try {
-      // Get user location
       Position position = await _determinePosition();
       double latitude = position.latitude;
       double longitude = position.longitude;
 
-      // Fetch the user's address
       await fetchUserLocation(latitude, longitude);
-
-      // Fetch weather data using user's location
       await fetchWeatherData(latitude, longitude);
     } catch (e) {
       setState(() {
@@ -146,7 +142,6 @@ class _DashboardState extends State<Dashboard> {
       99: "⛈️ Thunderstorm with Heavy Hail"
     };
 
-    // Return description or default
     return weatherConditions[weatherCode] ?? "🌍 Unknown Weather";
   }
 
@@ -178,108 +173,131 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (userLocation != null) ...[
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Location: $userLocation",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 3, 7, 61),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(12),
+                              height: 240,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(0, 4),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 55, 0, 255),
+                                    Color.fromARGB(255, 36, 104, 250),
+                                  ],
                                 ),
-                                textAlign: TextAlign.center,
+                                borderRadius: BorderRadius.circular(12),
+                                // image: DecorationImage(
+                                //   image: image,
+                                //   fit: BoxFit.cover,
+                                //   opacity: 0.1,
+                                // ),
                               ),
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Your Location",
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "$userLocation",
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ])),
                             ),
-                            SizedBox(height: 10),
                           ],
                           SizedBox(height: 20),
                           const Divider(height: 3),
                           SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Current Weather",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 66, 77, 228),
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(12),
+                            height: 200,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: Offset(0, 4),
+                                  blurRadius: 5,
+                                ),
+                              ],
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 55, 0, 255),
+                                  Color.fromARGB(255, 36, 104, 250),
+                                ],
                               ),
+                              borderRadius: BorderRadius.circular(12),
+                              // image: DecorationImage(
+                              //   image: image,
+                              //   fit: BoxFit.cover,
+                              //   opacity: 0.1,
+                              // ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Temperature: ${weatherData?['current_weather']['temperature']}°C",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 201, 12, 12),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Condition: ${getWeatherCondition(weatherData?['current_weather']['weathercode'] ?? 0)}",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 41, 141, 2),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Wind Speed: ${weatherData?['current_weather']['windspeed']} m/s",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 2, 12, 141),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          const Divider(height: 3),
-                          SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Hourly Forecast",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 3, 7, 61),
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount:
-                                  weatherData?['hourly']['time'].length ?? 0,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Text(
-                                    "Date & Time: ${weatherData?['hourly']['time'][index].replaceFirst('T', ' | ')}",
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 3, 102, 28),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Current Weather",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 27,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  subtitle: Text(
-                                    "Temp: ${weatherData?['hourly']['temperature_2m'][index]}°C, Humidity: ${weatherData?['hourly']['relative_humidity_2m'][index]}%",
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  "Temperature: ${weatherData?['current_weather']['temperature']}°C",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 70, 70),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                );
-                              },
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  "Condition: ${getWeatherCondition(weatherData?['current_weather']['weathercode'] ?? 0)}",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 141, 255, 96),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  "Wind Speed: ${weatherData?['current_weather']['windspeed']} m/s",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 231, 255, 97),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
