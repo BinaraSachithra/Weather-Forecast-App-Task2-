@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:task2/screen/dashboard.dart';
 import 'package:task2/screen/monthly_hourly.dart';
 
@@ -14,6 +12,7 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
+  DateTime? _lastBackPressTime;
 
   static const List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
@@ -26,76 +25,129 @@ class _NavigationState extends State<Navigation> {
     _selectedIndex = widget.index != null ? widget.index! : 0;
   }
 
+  Future<bool> _onWillPop() async {
+    final now = DateTime.now();
+    if (_lastBackPressTime == null ||
+        now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+      _lastBackPressTime = now;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Press back again to exit'),
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          backgroundColor: const Color(0xFF5A67D8),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        return await showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('Exit App'),
-                content: Text('Do you really want to exit the app?'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text('No'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text('Yes'),
-                  ),
-                ],
-              ),
-            ) ??
-            false;
-      },
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 20,
-                color: Color.fromARGB(255, 185, 185, 185).withOpacity(.1),
+                offset: const Offset(0, -5),
               ),
             ],
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
           ),
           child: SafeArea(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                rippleColor: Color.fromARGB(255, 65, 116, 255),
-                hoverColor: Color.fromARGB(255, 118, 155, 255),
-                gap: 10,
-                activeColor: const Color.fromARGB(255, 255, 255, 255),
-                iconSize: 25,
-                padding: EdgeInsets.symmetric(horizontal: 42, vertical: 16),
-                duration: Duration(milliseconds: 100),
-                tabBackgroundColor: Color.fromARGB(255, 66, 77, 228),
-                color: Colors.black,
-                tabs: const [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Current',
+            child: Container(
+              height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(
+                    index: 0,
+                    icon: Icons.home_rounded,
+                    label: 'Current',
                   ),
-                  GButton(
-                    icon: LineIcons.calendar,
-                    text: 'Hourly & Monthly',
+                  _buildNavItem(
+                    index: 1,
+                    icon: Icons.calendar_month_rounded,
+                    label: 'Forecast',
                   ),
                 ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required int index,
+    required IconData icon,
+    required String label,
+  }) {
+    final isSelected = _selectedIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: isSelected
+            ? BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF667EEA).withOpacity(0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        )
+            : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 24,
+              color: isSelected ? Colors.white : const Color(0xFF718096),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected ? Colors.white : const Color(0xFF718096),
+              ),
+            ),
+          ],
         ),
       ),
     );
